@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Mừng Tuổi 2026 🌸</title>
+
+<style>
+body{
+  margin:0;
+  background:radial-gradient(circle,#b30000,#600000);
+  overflow:hidden;
+  font-family:"Segoe UI",Tahoma;
+  color:white;
+}
+
+/* nhạc */
+audio{display:none}
+
+/* thông báo */
+#moneyBox{
+  position:fixed;
+  top:15px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000c;
+  padding:12px 28px;
+  border-radius:25px;
+  font-size:22px;
+  z-index:10;
+}
+
+#total{
+  position:fixed;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000;
+  padding:10px 30px;
+  border-radius:25px;
+  font-size:20px;
+  z-index:10;
+}
+
+/* cây đào */
+#tree{
+  position:absolute;
+  bottom:80px;
+  left:50%;
+  transform:translateX(-50%);
+  width:300px;
+  height:450px;
+  cursor:pointer;
+  z-index:3;
+}
+
+.trunk{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:45px;
+  height:200px;
+  background:#5b2c1a;
+  border-radius:25px;
+}
+
+.branch{
+  position:absolute;
+  width:150px;
+  height:18px;
+  background:#5b2c1a;
+  border-radius:12px;
+  transform-origin:left center;
+}
+
+.b1{top:120px; left:140px; transform:rotate(-25deg);}
+.b2{top:150px; left:20px; transform:rotate(210deg);}
+.b3{top:80px; left:140px; transform:rotate(-5deg);}
+.b4{top:60px; left:60px; transform:rotate(160deg);}
+
+/* hoa */
+.flower{
+  position:absolute;
+  reveal: hidden;
+  font-size:30px;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+}
+
+/* lì xì treo */
+.hanging{
+  position:absolute;
+  font-size:30px;
+  animation:swing 3s ease-in-out infinite;
+}
+
+@keyframes swing{
+  0%,100%{transform:rotate(0deg)}
+  50%{transform:rotate(8deg)}
+}
+
+/* rung cây */
+@keyframes shake{
+  0%{transform:translateX(-50%) rotate(0)}
+  25%{transform:translateX(-50%) rotate(1.5deg)}
+  50%{transform:translateX(-50%) rotate(-1.5deg)}
+  75%{transform:translateX(-50%) rotate(1.5deg)}
+  100%{transform:translateX(-50%) rotate(0)}
+}
+
+/* lì xì rơi */
+.fall{
+  position:absolute;
+  font-size:32px;
+  animation:fall 1.6s ease-out forwards;
+  z-index:6;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(350px) rotate(540deg);
+    opacity:0;
+  }
+}
+
+/* pháo hoa */
+.fire{
+  position:absolute;
+  width:8px;
+  height:8px;
+  background:gold;
+  border-radius:50%;
+  animation:boom 1.2s ease-out forwards;
+}
+
+@keyframes boom{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
+}
+
+/* nhân vật */
+#teacher{
+  position:fixed;
+  right:20px;
+  bottom:80px;
+  font-size:90px;
+}
+
+#banhchung{
+  position:fixed;
+  left:20px;
+  bottom:80px;
+  font-size:90px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="mung-xuan-2026.mp3" type="audio/mpeg">
+</audio>
+
+<div id="moneyBox">🌸 Chạm cây đào để hái lộc đầu xuân</div>
+<div id="total">Tổng tiền: 0 ₫</div>
+
+<div id="banhchung">🎋</div>
+<div id="teacher">🧑‍🏫🧧</div>
+
+<div id="tree">
+  <div class="trunk"></div>
+  <div class="branch b1"></div>
+  <div class="branch b2"></div>
+  <div class="branch b3"></div>
+  <div class="branch b4"></div>
+
+  <!-- hoa -->
+  <div class="flower" style="top:40px;left:110px">🌸</div>
+  <div class="flower" style="top:70px;left:170px">🌸</div>
+  <div class="flower" style="top:90px;left:60px">🌸</div>
+  <div class="flower" style="top:140px;left:190px">🌸</div>
+  <div class="flower" style="top:60px;left:30px">🌸</div>
+
+  <!-- lì xì -->
+  <div class="hanging" style="top:80px;left:120px">🧧</div>
+  <div class="hanging" style="top:110px;left:70px">🧧</div>
+  <div class="hanging" style="top:60px;left:190px">🧧</div>
+</div>
+
+<script>
+const music=document.getElementById("music");
+const tree=document.getElementById("tree");
+const moneyBox=document.getElementById("moneyBox");
+const totalBox=document.getElementById("total");
+
+const values=[100000,50000,20000,10000,5000];
+let total=0;
+let played=false;
+
+tree.onclick=()=>{
+  if(!played){music.play();played=true}
+
+  tree.style.animation="shake 0.4s";
+  setTimeout(()=>tree.style.animation="",400);
+
+  const money=values[Math.floor(Math.random()*values.length)];
+  total+=money;
+
+  moneyBox.innerHTML=`🎉 Nhận được ${money.toLocaleString()} ₫`;
+  totalBox.innerHTML=`Tổng tiền: ${total.toLocaleString()} ₫`;
+
+  const lx=document.createElement("div");
+  lx.className="fall";
+  lx.innerHTML="🧧";
+  lx.style.left="50%";
+  lx.style.top="260px";
+  document.body.appendChild(lx);
+  setTimeout(()=>lx.remove(),1600);
+
+  // pháo hoa
+  for(let i=0;i<24;i++){
+    const f=document.createElement("div");
+    f.className="fire";
+    f.style.left="50%";
+    f.style.top="250px";
+    f.style.setProperty("--x",(Math.random()*300-150)+"px");
+    f.style.setProperty("--y",(Math.random()*-250)+"px");
+    f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
+  }
+};
+</script>
+
+</body>
+</html>
